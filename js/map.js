@@ -1,7 +1,7 @@
 window.onload = function(){
 	if (!navigator.geolocation) {
 		console.log('Geolocation not supported');
-	} 
+	}
 
 	function success(position) {
 		var pos = {};
@@ -17,7 +17,7 @@ window.onload = function(){
 
 	var mapOptions = {
 		position: navigator.geolocation.getCurrentPosition(success, error),
-		center: new google.maps.LatLong(position.latitude, position.longitude),
+		center: new google.maps.LatLong(this.position.latitude, this.position.longitude),
 		zoom: 15,
 		mapTypeId: google.maps.MapTypeId.ROADMAP
 	};
