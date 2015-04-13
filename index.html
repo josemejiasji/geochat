@@ -1,20 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="geoChat">
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title></title>
 	<link rel="stylesheet" href="css/app.css">
 </head>
-<body>
+<body ng-controller="geoChatController">
 <!-- mapa -->
 <section id="map-canvas"></section>
 
 <section id="message-box">
-	<textarea ng-model="message-content" name=""></textarea>
+	<div class="mensajes">
+	{{data}}
+		<p ng-repeat="item in mensajes">
+		    	{{item.user}} - {{item.mensaje}}
+		 </p>
+	</div>
 	<div class="sent-content">
+			<input type="text" ng-model="user" placeholder="Escribe tu alias">
 			<input ng-model="message" type="text" name="" value="" placeholder="Deja tu comentario">
-		 <button>Sent</button>
+		 <button ng-click="enviar()">Sent</button>
 	</div>
 </section>
 
@@ -23,7 +29,7 @@
 	<!-- JS here -->
 	<!-- Google Maps API -->
 	<script src="js/map.js"></script>
-		<script src="js/angular.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
 	<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDDI1qcstor5dXWLTdZKoggEd_nSSEei-g&sensor=false"></script>
 	<!-- firebase -->
 	<script src="js/firebase.js"></script>
@@ -32,7 +38,7 @@
 	<!-- GeoFire -->
 	<script src="https://cdn.firebase.com/libs/geofire/3.2.2/geofire.min.js"></script>
 	<script src="js/angularGeoFire.min.js"></script>
-
+	<script src="js/app.js"></script>
 
 </body>
 </html>
