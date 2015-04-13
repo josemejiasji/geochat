@@ -1,27 +1,49 @@
-window.onload = function(){
-	if (!navigator.geolocation) {
-		console.log('Geolocation not supported');
-	}
+angular.module('geoChat')
+    .controller('geoMapController', ['$scope', function($scope) {
 
-	function success(position) {
-		var pos = {};
-		pos.latitude = position.coords.latitude;
-		pos.longitude = position.coords.longitude;
+        $scope.init = function() {
+        	$scope.map = { center: { latitude: 0, longitude: 0 }, zoom: 1 };
+        	$scope.userMarker = { id: 0, coords: { latitude: 0, longitude: 0 } };
+            $scope.getUserCurrentLocation();
+        };
 
-		console.log(pos);
-		return pos;
-	}
+        $scope.getUserCurrentLocation = function() {
+            if (!navigator.geolocation) {
+                console.log('Geolocation not supported');
+            }
 
-	function error (reason) {
-		console.log(error);
-	}
+            function success(position) {
+                var coords = {};
+                coords.latitude = position.coords.latitude;
+                coords.longitude = position.coords.longitude;
 
-	var mapOptions = {
-		position: navigator.geolocation.getCurrentPosition(success, error),
-		center: new google.maps.LatLong(this.position.latitude, this.position.longitude),
-		zoom: 15,
-		mapTypeId: google.maps.MapTypeId.ROADMAP
-	};
+                $scope.loadMap(coords);
+                return coords;
+            }
 
-	var map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
-};
+            function error(reason) {
+                console.log(error);
+            }
+
+            navigator.geolocation.getCurrentPosition(success, error);
+        };
+
+        $scope.loadMap = function(position) {
+            $scope.map = {
+                center: {
+                    latitude: position.latitude,
+                    longitude: position.longitude
+                },
+                zoom: 17
+            };
+
+            $scope.userMarker = {
+                id: 0,
+                coords: {
+                    latitude: position.latitude,
+                    longitude: position.longitude
+                }
+            };
+        };
+
+    }]);
