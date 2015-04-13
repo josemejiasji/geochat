@@ -8,6 +8,7 @@ window.onload = function(){
 		pos.latitude = position.coords.latitude;
 		pos.longitude = position.coords.longitude;
 
+		console.log(pos);
 		return pos;
 	}
 
