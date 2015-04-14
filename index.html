@@ -12,9 +12,8 @@
 
 <section id="message-box">
 	<div class="mensajes">
-	{{data}}
 		<p ng-repeat="item in mensajes">
-		    	{{item.user}} - {{item.mensaje}}
+		    	{{item.mensaje.user}} : {{item.mensaje.texto}}
 		 </p>
 	</div>
 	<div class="sent-content">
