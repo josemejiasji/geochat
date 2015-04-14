@@ -15,7 +15,7 @@
 </section>
 
 <!-- chat -->
-<section id="message-box" ng-controller="geoChatController">
+<section id="message-box" data-ng-controller="geoChatController" data-ng-init="chatInit()">
 	<div class="mensajes">
 		<p ng-repeat="item in mensajes">
 		    	{{item.mensaje.user}} : {{item.mensaje.texto}} - {{item.mensaje.fecha}}
@@ -47,7 +47,5 @@
 	<!-- GeoFire -->
 	<script src="//cdn.firebase.com/libs/geofire/3.2.2/geofire.min.js"></script>
 	<script src="js/angularGeoFire.min.js"></script>
-	<script src="js/app.js"></script>
-
 </body>
 </html>
