@@ -6,23 +6,29 @@
 	<title></title>
 	<link rel="stylesheet" href="css/app.css">
 </head>
-<body>
+<body ng-controller="geoChatController">
 <!-- mapa -->
 <section id="map-canvas" data-ng-controller="geoMapController" data-ng-init="init()">
 	<ui-gmap-google-map center="map.center" zoom="map.zoom">
-		<ui-gmap-marker coords="marker.coords" idKey="marker.id"></ui-gmap-marker>
+		<ui-gmap-marker coords="userMarker.coords" idKey="userMarker.id"></ui-gmap-marker>
 	</ui-gmap-google-map>
 </section>
 
-<!-- <section id="message-box">
-	<textarea ng-model="message-content" name=""></textarea>
-	<div class="sent-content">
-			<input ng-model="message" type="text" name="" value="" placeholder="Deja tu comentario">
-		 <button>Sent</button>
-	</div>
-</section> -->
-
 <!-- chat -->
+<section id="message-box">
+	<div class="mensajes">
+	{{data}}
+		<p ng-repeat="item in mensajes">
+		    	{{item.user}} - {{item.mensaje}}
+		 </p>
+	</div>
+	<div class="sent-content">
+			<input type="text" ng-model="user" placeholder="Escribe tu alias">
+			<input ng-model="message" type="text" name="" value="" placeholder="Deja tu comentario">
+		 <button ng-click="enviar()">Sent</button>
+	</div>
+</section>
+
 
 	<!-- JS here -->
 	<!-- Angular -->
@@ -40,7 +46,7 @@
 	<!-- GeoFire -->
 	<script src="//cdn.firebase.com/libs/geofire/3.2.2/geofire.min.js"></script>
 	<script src="js/angularGeoFire.min.js"></script>
-
+	<script src="js/app.js"></script>
 
 </body>
 </html>
