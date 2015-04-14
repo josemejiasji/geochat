@@ -8,14 +8,15 @@
     <link rel="stylesheet" href="css/app.css">
 </head>
 
-<body>
+<body data-ng-cloak>
     <!-- mapa -->
     <section id="map-canvas" data-ng-controller="GeoMapController" data-ng-init="init()">
         <ui-gmap-google-map center="map.center" zoom="map.zoom">
+            <ui-gmap-marker coords="userMarker.coords" idKey="userMarker.id"></ui-gmap-marker>
         </ui-gmap-google-map>
     </section>
     <!-- chat -->
-    <section id="message-box" ng-controller="geoChatController">
+    <section id="message-box" data-ng-controller="geoChatController" data-ng-init="chatInit()">
         <div class="mensajes">
             <p ng-repeat="item in mensajes">
                 {{item.mensaje.user}} : {{item.mensaje.texto}} - {{item.mensaje.fecha}}

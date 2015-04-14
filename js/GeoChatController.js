@@ -1,17 +1,25 @@
 angular.module('geoChat').controller("geoChatController", function($scope, $firebaseObject, $firebaseArray, $geofire) {
+
+
     var ref = new Firebase("https://glaring-heat-1935.firebaseio.com"),
         historial = new Firebase("https://glaring-heat-1935.firebaseio.com/historial"),
         obj = $firebaseObject(historial),
         f = new Date(),
         post = {
-            latitude: 465,
-            longitude: 045,
+            coords:{
+                latitude: 0,
+                longitude: 0
+            },
+
             mensaje: {
                 user: "",
                 texto: "",
                 fecha: f.toDateString()
             }
         };
+
+        //Guardo las cordenadas
+        post.coords = $scope.$root.coords;
 
     $scope.mensajes = [];
 
