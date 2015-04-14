@@ -12,7 +12,26 @@
     <!-- mapa -->
     <section id="map-canvas" data-ng-controller="GeoMapController" data-ng-init="init()">
         <ui-gmap-google-map center="map.center" zoom="map.zoom">
-            <ui-gmap-marker coords="userMarker.coords" idKey="userMarker.id"></ui-gmap-marker>
+            <ui-gmap-markers options="'options'" models="userMarkers" labelContent="'title'" coords="'self'" icon="'icon'"></ui-gmap-markers>
+
+            	<ui-gmap-marker ng-repeat="user in userMarkers"
+
+            	model="user" idkey="user.id" coords="{latitude:user.latitude,longitude:user.longitude}" options="{title:user.title}">
+
+			          <ui-gmap-window options="windowOptions">
+			            <div>
+			              <table class="popup">
+			                <tbody>
+			                  <tr>
+			                    <td class="label">User</td>
+			                    <td class="value">{{user.title}}</td>
+			                  </tr>
+			                </tbody>
+			              </table>
+			            </div>
+			          </ui-gmap-window>
+			        </ui-gmap-marker>
+
         </ui-gmap-google-map>
     </section>
 

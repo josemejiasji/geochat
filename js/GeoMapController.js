@@ -8,14 +8,20 @@ angular.module('geoChat')
                     latitude: 0,
                     longitude: 0
                 },
+                bound:{},
                 zoom: 1
             };
 
             // cargar coordenadas del usuario
             $scope.getUserCurrentLocation();
 
-            $scope.users={};
+            $scope.user = [];
+
+            $scope.userMarkers = [];
+
         };
+
+
 
         $scope.getUserCurrentLocation = function() {
             if (!navigator.geolocation) {
@@ -30,9 +36,25 @@ angular.module('geoChat')
                 $scope.loadMap(coords);
 
                 var usuarios = new Firebase("https://glaring-heat-1935.firebaseio.com/usuarios");
-                usuarios.push(coords);
 
-                $scope.users = $firebaseObject(usuarios);
+                var obj = $firebaseObject(usuarios);
+
+                obj.$watch(function(){
+                    angular.forEach(obj, function(value, key) {
+                        var i = 0;
+                        $scope.userMarkers.push({
+                                id:i,
+                                latitude: value.latitude,
+                                longitude: value.longitude,
+                                title:"posicion-" + i
+                        })
+                        i++;
+                    });
+
+                    console.log($scope.userMarkers)
+                });
+
+                usuarios.push(coords);
 
                 $scope.$root.userCoords = coords;
                 return coords;
@@ -53,19 +75,26 @@ angular.module('geoChat')
                 },
                 zoom: 17
             };
+
+            $scope.userMarker = {
+                center: {
+                    latitude: parseFloat(position.latitude),
+                    longitude: parseFloat(position.longitude)
+                }
+            }
         };
 
-        //Aqui vamos recogiendo los valores
-        $scope.$watch('users', function() {
+        // //Aqui vamos recogiendo los valores
+        // $scope.$watch('users', function() {
 
-            angular.forEach($scope.users, function(value, key) {
-                //$scope.mensajes.;
-                console.log(key, value);
-                var marker = new google.maps.Marker({
-                	position: {latitude: 0, longitude: 0},
-                	map: $scope.map
-                });
-            });
-        });
+        //     angular.forEach($scope.users, function(value, key) {
+        //         //$scope.mensajes.;
+        //         console.log(key, value);
+        //         var marker = new google.maps.Marker({
+        //         	position: {latitude: 0, longitude: 0},
+        //         	map: $scope.map
+        //         });
+        //     });
+        // });
 
     }]);
