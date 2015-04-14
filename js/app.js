@@ -3,34 +3,39 @@
 angular.module('geoChat', ["firebase", "angularGeoFire", "uiGmapgoogle-maps"]);
 
 angular.module('geoChat').controller("geoChatController", function($scope, $firebaseObject, $firebaseArray, $geofire) {
-    var ref = new Firebase("https://glaring-heat-1935.firebaseio.com");
-    var obj = $firebaseObject(ref);
+    var ref = new Firebase("https://glaring-heat-1935.firebaseio.com"),
+        historial = new Firebase("https://glaring-heat-1935.firebaseio.com/historial"),
+        obj = $firebaseObject(historial),
+        f = new Date(),
+        post = {
+            latitude: 465,
+            longitude: 045,
+            mensaje: {
+                user: "",
+                texto: "",
+                fecha: f.toDateString()
+            }
+        };
+
     $scope.mensajes = [];
 
-    obj.$loaded().then(function() {
-        console.log("loaded record:", obj.$id, obj.someOtherKeyInData);
-
-        // To iterate the key/value pairs of the object, use angular.forEach()
-        angular.forEach(obj, function(value, key) {
-            console.log(key, value);
-
-        });
-    });
-
+    //Aqui vamos recogiendo los valores
     obj.$watch(function() {
-        console.log("cambio")
+        //Hay que filtral por cordenadas
+        $scope.mensajes = [];
+
         angular.forEach(obj, function(value, key) {
+            //$scope.mensajes.;
+            console.log(key, value);
             $scope.mensajes.push(value);
         });
     });
 
     $scope.enviar = function() {
-        //Se debe de pillar la ubicacion en la que se hizo el mensaje
-        ref.push({
-            user: $scope.user,
-            mensaje: $scope.message
-        });
-    };
-
+        //Creamos la cordenada en la base de datos
+        post.mensaje.user = $scope.user;
+        post.mensaje.texto = $scope.message;
+        historial.push(post);
+    }
 
 });

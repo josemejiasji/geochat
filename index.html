@@ -17,9 +17,9 @@
 <!-- chat -->
 <section id="message-box">
 	<div class="mensajes">
-	{{data}}
 		<p ng-repeat="item in mensajes">
-		    	{{item.user}} - {{item.mensaje}}
+		    	{{item.mensaje.user}} : {{item.mensaje.texto}} - {{item.mensaje.fecha}}
+
 		 </p>
 	</div>
 	<div class="sent-content">
