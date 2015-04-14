@@ -6,7 +6,7 @@
 	<title></title>
 	<link rel="stylesheet" href="css/app.css">
 </head>
-<body ng-controller="geoChatController">
+<body data-ng-cloak>
 <!-- mapa -->
 <section id="map-canvas" data-ng-controller="geoMapController" data-ng-init="init()">
 	<ui-gmap-google-map center="map.center" zoom="map.zoom">
@@ -15,7 +15,7 @@
 </section>
 
 <!-- chat -->
-<section id="message-box">
+<section id="message-box" ng-controller="geoChatController">
 	<div class="mensajes">
 		<p ng-repeat="item in mensajes">
 		    	{{item.mensaje.user}} : {{item.mensaje.texto}} - {{item.mensaje.fecha}}
@@ -34,11 +34,12 @@
 	<!-- Angular -->
 	<script src="js/angular.js"></script>
 	<script src="js/app.js"></script>
+	<script src="js/GeoChatController.js"></script>
 	<!-- Google Maps API -->
 	<script src="//maps.googleapis.com/maps/api/js?sensor=false"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/3.6.0/lodash.min.js"></script>
 	<script src="js/angular-google-maps.min.js"></script>
-	<script src="js/map.js"></script>
+	<script src="js/GeoMapController.js"></script>
 	<!-- firebase -->
 	<script src="js/firebase.js"></script>
 	<script src="//rsvpjs-builds.s3.amazonaws.com/rsvp-latest.min.js"></script>

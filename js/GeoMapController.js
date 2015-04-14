@@ -3,7 +3,6 @@ angular.module('geoChat')
 
         $scope.init = function() {
         	$scope.map = { center: { latitude: 0, longitude: 0 }, zoom: 1 };
-        	$scope.userMarker = { id: 0, coords: { latitude: 0, longitude: 0 } };
             $scope.getUserCurrentLocation();
         };
 
