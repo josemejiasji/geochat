@@ -26,8 +26,6 @@ angular.module('geoChat').controller("geoChatController", function($scope, $fire
         $scope.mensajes = [];
 
         angular.forEach(obj, function(value, key) {
-            //$scope.mensajes.;
-            console.log(key, value);
             $scope.mensajes.push(value);
         });
     });

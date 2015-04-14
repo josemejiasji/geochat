@@ -13,6 +13,8 @@ angular.module('geoChat')
 
             // cargar coordenadas del usuario
             $scope.getUserCurrentLocation();
+
+            $scope.users={};
         };
 
         $scope.getUserCurrentLocation = function() {
@@ -29,6 +31,7 @@ angular.module('geoChat')
 
                 var usuarios = new Firebase("https://glaring-heat-1935.firebaseio.com/usuarios");
                 usuarios.push(coords);
+
                 $scope.users = $firebaseObject(usuarios);
 
                 $scope.$root.userCoords = coords;
@@ -45,8 +48,8 @@ angular.module('geoChat')
         $scope.loadMap = function(position) {
             $scope.map = {
                 center: {
-                    latitude: position.latitude,
-                    longitude: position.longitude
+                    latitude: parseFloat(position.latitude),
+                    longitude: parseFloat(position.longitude)
                 },
                 zoom: 17
             };
