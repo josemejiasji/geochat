@@ -1,8 +1,17 @@
 angular.module('geoChat')
-    .controller('geoMapController', ['$scope', function($scope) {
+    .controller('GeoMapController', ['$scope', '$firebaseObject', function($scope, $firebaseObject) {
 
         $scope.init = function() {
-        	$scope.map = { center: { latitude: 0, longitude: 0 }, zoom: 1 };
+            // inicializar el mapa a 0
+            $scope.map = {
+                center: {
+                    latitude: 0,
+                    longitude: 0
+                },
+                zoom: 1
+            };
+
+            // cargar coordenadas del usuario
             $scope.getUserCurrentLocation();
         };
 
@@ -17,6 +26,12 @@ angular.module('geoChat')
                 coords.longitude = position.coords.longitude;
 
                 $scope.loadMap(coords);
+
+                var usuarios = new Firebase("https://glaring-heat-1935.firebaseio.com/usuarios");
+                usuarios.push(coords);
+                $scope.users = $firebaseObject(usuarios);
+
+                $scope.$root.userCoords = coords;
                 return coords;
             }
 
@@ -35,14 +50,19 @@ angular.module('geoChat')
                 },
                 zoom: 17
             };
-
-            $scope.userMarker = {
-                id: 0,
-                coords: {
-                    latitude: position.latitude,
-                    longitude: position.longitude
-                }
-            };
         };
+
+        //Aqui vamos recogiendo los valores
+        $scope.$watch('users', function() {
+
+            angular.forEach($scope.users, function(value, key) {
+                //$scope.mensajes.;
+                console.log(key, value);
+                var marker = new google.maps.Marker({
+                	position: {latitude: 0, longitude: 0},
+                	map: $scope.map
+                });
+            });
+        });
 
     }]);
