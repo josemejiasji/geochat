@@ -27,7 +27,7 @@
         </div>
 
         <div class="row" data-ng-if="logged">
-            <div class="col-md-9">
+            <div class="col-md-8">
                 <!-- mapa -->
                 <section id="map-canvas" data-ng-controller="GeoMapController" data-ng-init="init()">
                     <ui-gmap-google-map center="map.center" zoom="map.zoom">
@@ -57,11 +57,11 @@
                 </section>
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <!-- chat -->
                 <section id="message-box" data-ng-controller="geoChatController" data-ng-init="init()">
                     <div class="mensajes">
-                        <p ng-repeat="item in mensajes">
+                        <p class="text-muted" ng-repeat="item in mensajes">
                             {{item.mensaje.user}} : {{item.mensaje.texto}} - {{item.mensaje.fecha}}
                         </p>
                     </div>
