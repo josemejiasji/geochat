@@ -5,51 +5,78 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title></title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/app.css">
 </head>
 
-<body data-ng-cloak>
-    <!-- mapa -->
-    <section id="map-canvas" data-ng-controller="GeoMapController" data-ng-init="init()">
-        <ui-gmap-google-map center="map.center" zoom="map.zoom">
+<body data-ng-cloak >
 
-            	<ui-gmap-marker ng-repeat="user in userMarkers"
-
-            	model="user" idkey="user.id" coords="{latitude:user.latitude,longitude:user.longitude}" options="{title:user.title}">
-
-			          <ui-gmap-window options="windowOptions">
-			            <div>
-			              <table class="popup">
-			                <tbody>
-			                  <tr>
-			                    <td class="label">User</td>
-			                    <td class="value">{{user.title}}</td>
-			                  </tr>
-			                </tbody>
-			              </table>
-			            </div>
-			          </ui-gmap-window>
-			        </ui-gmap-marker>
-
-			        <ui-gmap-circle ng-repeat="c in circles track by $index" center="c.center" stroke="c.stroke" fill="c.fill" radius="c.radius"
-                visible="c.visible" geodesic="c.geodesic" editable="c.editable" draggable="c.draggable" clickable="c.clickable" control="c.control"></ui-gmap-circle>
-
-        </ui-gmap-google-map>
-    </section>
-
-    <!-- chat -->
-    <section id="message-box" data-ng-controller="geoChatController" data-ng-init="init()">
-        <div class="mensajes">
-            <p ng-repeat="item in mensajes">
-                {{item.mensaje.user}} : {{item.mensaje.texto}} - {{item.mensaje.fecha}}
-            </p>
+    <div class="container-fluid" data-ng-controller="geoChatAppController">
+        <div class="row" data-ng-if="!logged">
+            <div class="col-md-6">
+                <form class="form-inline">
+                  <div class="form-group">
+                    <label for="nombre">Nombre</label>
+                    <input data-ng-model="usuario" type="text" class="form-control" id="nombre" placeholder="Introduzca un usuario">
+                  </div>
+                  <button class="btn btn-default" data-ng-click="entrar(usuario)">Entrar</button>
+                  {{usuario}}
+              </form>
+            </div>
         </div>
-        <div class="sent-content">
-            <input type="text" ng-model="user" placeholder="Escribe tu alias">
-            <input ng-model="message" type="text" name="" value="" placeholder="Deja tu comentario">
-            <button ng-click="enviar()">Sent</button>
+
+        <div class="row" data-ng-if="logged">
+            <div class="col-md-9">
+                <!-- mapa -->
+                <section id="map-canvas" data-ng-controller="GeoMapController" data-ng-init="init()">
+                    <ui-gmap-google-map center="map.center" zoom="map.zoom">
+
+                        	<ui-gmap-marker ng-repeat="user in userMarkers"
+
+                        	model="user" idkey="user.id" coords="{latitude:user.latitude,longitude:user.longitude}" options="{title:user.title}">
+
+            			          <ui-gmap-window options="windowOptions">
+            			            <div>
+            			              <table class="popup">
+            			                <tbody>
+            			                  <tr>
+            			                    <td class="label">User</td>
+            			                    <td class="value">{{user.title}}</td>
+            			                  </tr>
+            			                </tbody>
+            			              </table>
+            			            </div>
+            			          </ui-gmap-window>
+            			        </ui-gmap-marker>
+
+            			        <ui-gmap-circle ng-repeat="c in circles track by $index" center="c.center" stroke="c.stroke" fill="c.fill" radius="c.radius"
+                            visible="c.visible" geodesic="c.geodesic" editable="c.editable" draggable="c.draggable" clickable="c.clickable" control="c.control"></ui-gmap-circle>
+
+                    </ui-gmap-google-map>
+                </section>
+            </div>
+
+            <div class="col-md-3">
+                <!-- chat -->
+                <section id="message-box" data-ng-controller="geoChatController" data-ng-init="init()">
+                    <div class="mensajes">
+                        <p ng-repeat="item in mensajes">
+                            {{item.mensaje.user}} : {{item.mensaje.texto}} - {{item.mensaje.fecha}}
+                        </p>
+                    </div>
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <input ng-model="message" type="text" name="" value="" placeholder="Deja tu comentario" class="form-control">
+                        </div>
+                        <button class="btn btn-default" data-ng-click="enviar()">Enviar</button>
+                    </form>
+                </section>
+            </div>
         </div>
-    </section>
+
+    </div>
+
     <!-- JS here -->
     <!-- Angular -->
     <script src="js/angular.js"></script>
@@ -59,8 +86,10 @@
     <script src="//maps.googleapis.com/maps/api/js?sensor=false"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/3.6.0/lodash.min.js"></script>
     <script src="js/angular-google-maps.min.js"></script>
+    <script src="js/GeoChatAppController.js"></script>
     <script src="js/GeoMapController.js"></script>
     <script src="js/GeoChatController.js"></script>
+
     <!-- firebase -->
     <script src="js/firebase.js"></script>
     <script src="//rsvpjs-builds.s3.amazonaws.com/rsvp-latest.min.js"></script>
@@ -68,6 +97,9 @@
     <!-- GeoFire -->
     <script src="//cdn.firebase.com/libs/geofire/3.2.2/geofire.min.js"></script>
     <script src="js/angularGeoFire.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 </body>
 
 </html>

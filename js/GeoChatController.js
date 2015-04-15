@@ -15,7 +15,7 @@ angular.module('geoChat').controller("geoChatController", function($scope, $fire
             },
 
             mensaje: {
-                user: "",
+                user: $scope.$root.usuario,
                 texto: "",
                 fecha: f.toDateString()
             }
@@ -35,9 +35,8 @@ angular.module('geoChat').controller("geoChatController", function($scope, $fire
     $scope.enviar = function() {
         //Creamos la cordenada en la base de datos
         $scope.post.coords = $scope.$root.userCoords;
-        $scope.post.mensaje.user = $scope.user;
         $scope.post.mensaje.texto = $scope.message;
-        $scope.historialDb.push(post);
+        $scope.historialDb.push($scope.post);
     };
 
 });
