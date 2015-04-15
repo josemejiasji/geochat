@@ -1,7 +1,9 @@
 angular.module('geoChat')
-    .controller('GeoMapController', ['$scope', '$firebaseObject', function($scope, $firebaseObject) {
+    .controller('GeoMapController', ['$scope', '$firebaseObject','$geofire','uiGmapGoogleMapApi',
+        function($scope, $firebaseObject,$geofire,uiGmapGoogleMapApi) {
 
         $scope.init = function() {
+
             // inicializar el mapa a 0
             $scope.map = {
                 center: {
@@ -19,7 +21,15 @@ angular.module('geoChat')
 
             $scope.userMarkers = [];
 
+            $scope.circles = [];
+
         };
+
+        // uiGmapGoogleMapApi is a promise.
+        // The "then" callback function provides the google.maps object.
+        uiGmapGoogleMapApi.then(function(maps) {
+            //console.log(maps);
+        });
 
 
 
@@ -39,22 +49,53 @@ angular.module('geoChat')
 
                 var obj = $firebaseObject(usuarios);
 
+
+                //Actualiza los datos
                 obj.$watch(function(){
+                    var i=0;
+
                     angular.forEach(obj, function(value, key) {
-                        var i = 0;
+
+                        var color = "#000000".replace(/0/g,function(){return (~~(Math.random()*16)).toString(16);});
+                        var objCircle= {
+                            id: i,
+                            center: {
+                                latitude: value.latitude,
+                                longitude: value.longitude
+                            },
+                            radius: 100,
+                            stroke: {
+                                color: color,
+                                weight: 2,
+                                opacity: 0.7
+                            },
+                            fill: {
+                                color: color,
+                                opacity: 0.3
+                            },
+                            geodesic: true, // optional: defaults to false
+                            draggable: false, // optional: defaults to false
+                            clickable: true, // optional: defaults to true
+                            editable: false, // optional: defaults to false
+                            visible: true, // optional: defaults to true
+                            control: {}
+                        };
+
+                        $scope.circles.push(objCircle);
+
                         $scope.userMarkers.push({
-                                id:i,
+                                id:value.latitude +""+value.longitude,
                                 latitude: value.latitude,
                                 longitude: value.longitude,
                                 title:"posicion-" + i
-                        })
+                        });
+
                         i++;
                     });
 
-                    console.log($scope.userMarkers)
                 });
 
-                usuarios.push(coords);
+                //usuarios.push(coords);
 
                 $scope.$root.userCoords = coords;
                 return coords;
@@ -81,8 +122,9 @@ angular.module('geoChat')
                     latitude: parseFloat(position.latitude),
                     longitude: parseFloat(position.longitude)
                 }
-            }
+            };
         };
+
 
         // //Aqui vamos recogiendo los valores
         // $scope.$watch('users', function() {
