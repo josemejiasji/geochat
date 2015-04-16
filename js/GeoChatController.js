@@ -2,7 +2,7 @@ angular.module('geoChat').controller("geoChatController", function($scope, $fire
 
     $scope.init = function(){
         $scope.historialDb = new Firebase("https://glaring-heat-1935.firebaseio.com/historial");
-        $scope.$root.userCoords={};
+        //$scope.$root.userCoords={};
         $scope.mensajes = [];
 
         var historialDbObj = $firebaseObject($scope.historialDb),
@@ -29,6 +29,8 @@ angular.module('geoChat').controller("geoChatController", function($scope, $fire
             angular.forEach(historialDbObj, function(value, key) {
                 $scope.mensajes.push(value);
             });
+
+            console.log($scope.mensajes);
         });
     };
 

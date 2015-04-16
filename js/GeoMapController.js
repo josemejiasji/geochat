@@ -14,6 +14,8 @@ angular.module('geoChat')
                 zoom: 1
             };
 
+            $scope.coords = {};
+
             // cargar coordenadas del usuario
             $scope.getUserCurrentLocation();
 
@@ -46,9 +48,9 @@ angular.module('geoChat')
                 $scope.loadMap(coords);
 
                 var usuarios = new Firebase("https://glaring-heat-1935.firebaseio.com/usuarios");
+                var users = new GeoFire(usuarios);
 
                 var obj = $firebaseObject(usuarios);
-
 
                 //Actualiza los datos
                 obj.$watch(function(){
@@ -60,8 +62,8 @@ angular.module('geoChat')
                         var objCircle= {
                             id: i,
                             center: {
-                                latitude: value.latitude,
-                                longitude: value.longitude
+                                latitude: value.l[0],
+                                longitude: value.l[1]
                             },
                             radius: 100,
                             stroke: {
@@ -84,20 +86,24 @@ angular.module('geoChat')
                         $scope.circles.push(objCircle);
 
                         $scope.userMarkers.push({
-                                id:value.latitude +""+value.longitude,
-                                latitude: value.latitude,
-                                longitude: value.longitude,
-                                title:"posicion-" + i
+                                id:value.l[0] +""+value.l[1],
+                                latitude: value.l[0],
+                                longitude: value.l[1],
+                                title:key
                         });
 
                         i++;
                     });
 
+                    console.log($scope.userMarkers);
+
                 });
 
-                //usuarios.push(coords);
+                //Guardo la posicion del usuario
+                users.set($scope.$root.usuario,[position.coords.latitude,position.coords.longitude]);
 
                 $scope.$root.userCoords = coords;
+                $scope.coords = coords;
                 return coords;
             }
 

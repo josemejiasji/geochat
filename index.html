@@ -27,7 +27,7 @@
         </div>
 
         <div class="row" data-ng-if="logged">
-            <div class="col-md-8">
+            <div class="col-md-12">
                 <!-- mapa -->
                 <section id="map-canvas" data-ng-controller="GeoMapController" data-ng-init="init()">
                     <ui-gmap-google-map center="map.center" zoom="map.zoom">
@@ -37,15 +37,22 @@
                         	model="user" idkey="user.id" coords="{latitude:user.latitude,longitude:user.longitude}" options="{title:user.title}">
 
             			          <ui-gmap-window options="windowOptions">
-            			            <div>
-            			              <table class="popup">
-            			                <tbody>
-            			                  <tr>
-            			                    <td class="label">User</td>
-            			                    <td class="value">{{user.title}}</td>
-            			                  </tr>
-            			                </tbody>
-            			              </table>
+            			            <div class="popup">
+                                        {{user.title}}
+                                        <div id="message-box" data-ng-controller="geoChatController" data-ng-init="init()">
+                                            <div class="mensajes">
+                                                <p class="text-muted" ng-repeat="item in mensajes | filter:{coords:coords}">
+                                                    {{item.mensaje.user}} : {{item.mensaje.texto}} - {{item.mensaje.fecha}}
+                                                </p>
+                                            </div>
+
+                                            <form class="form-inline">
+                                                <div class="form-group">
+                                                    <input ng-model="message" type="text" name="" value="" placeholder="Deja tu comentario" class="form-control">
+                                                </div>
+                                                <button class="btn btn-default" data-ng-click="enviar()">Enviar</button>
+                                        </form>
+                                        </div>
             			            </div>
             			          </ui-gmap-window>
             			        </ui-gmap-marker>
@@ -57,9 +64,9 @@
                 </section>
             </div>
 
-            <div class="col-md-4">
+            <!-- <div class="col-md-4"> -->
                 <!-- chat -->
-                <section id="message-box" data-ng-controller="geoChatController" data-ng-init="init()">
+               <!--  <div id="message-box" data-ng-controller="geoChatController" data-ng-init="init()">
                     <div class="mensajes">
                         <p class="text-muted" ng-repeat="item in mensajes">
                             {{item.mensaje.user}} : {{item.mensaje.texto}} - {{item.mensaje.fecha}}
@@ -71,8 +78,8 @@
                         </div>
                         <button class="btn btn-default" data-ng-click="enviar()">Enviar</button>
                     </form>
-                </section>
-            </div>
+                </div>
+            </div> -->
         </div>
 
     </div>
