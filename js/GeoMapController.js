@@ -47,61 +47,6 @@ angular.module('geoChat')
 
                 $scope.loadMap(coords);
 
-                var usuarios = new Firebase("https://glaring-heat-1935.firebaseio.com/usuarios");
-                var users = new GeoFire(usuarios);
-
-                var obj = $firebaseObject(usuarios);
-
-                //Actualiza los datos
-                obj.$watch(function(){
-                    var i=0;
-
-                    angular.forEach(obj, function(value, key) {
-
-                        var color = "#000000".replace(/0/g,function(){return (~~(Math.random()*16)).toString(16);});
-                        var objCircle= {
-                            id: i,
-                            center: {
-                                latitude: value.l[0],
-                                longitude: value.l[1]
-                            },
-                            radius: 100,
-                            stroke: {
-                                color: color,
-                                weight: 2,
-                                opacity: 0.7
-                            },
-                            fill: {
-                                color: color,
-                                opacity: 0.3
-                            },
-                            geodesic: true, // optional: defaults to false
-                            draggable: false, // optional: defaults to false
-                            clickable: true, // optional: defaults to true
-                            editable: false, // optional: defaults to false
-                            visible: true, // optional: defaults to true
-                            control: {}
-                        };
-
-                        $scope.circles.push(objCircle);
-
-                        $scope.userMarkers.push({
-                                id:value.l[0] +""+value.l[1],
-                                latitude: value.l[0],
-                                longitude: value.l[1],
-                                title:key
-                        });
-
-                        i++;
-                    });
-
-                    console.log($scope.userMarkers);
-
-                });
-
-                //Guardo la posicion del usuario
-                users.set($scope.$root.usuario,[position.coords.latitude,position.coords.longitude]);
-
                 $scope.$root.userCoords = coords;
                 $scope.coords = coords;
                 return coords;
@@ -113,6 +58,8 @@ angular.module('geoChat')
 
             navigator.geolocation.getCurrentPosition(success, error);
         };
+
+
 
         $scope.loadMap = function(position) {
             $scope.map = {
@@ -129,6 +76,57 @@ angular.module('geoChat')
                     longitude: parseFloat(position.longitude)
                 }
             };
+
+            var usuarios = new Firebase("https://glaring-heat-1935.firebaseio.com/usuarios"),
+                users    = new GeoFire(usuarios),
+                obj      = $firebaseObject(usuarios);
+
+                //Actualiza los datos cuando hay cambios
+                obj.$watch(function(){
+
+                    angular.forEach(obj, function(value, key) {
+
+                        var color     = "#000000".replace(/0/g,function(){return (~~(Math.random()*16)).toString(16);}),
+                            objCircle = {
+                                id: key,
+                                center: {
+                                    latitude: value.l[0],
+                                    longitude: value.l[1]
+                                },
+                                radius: 130,
+                                stroke: {
+                                    color: color,
+                                    weight: 2,
+                                    opacity: 0.7
+                                },
+                                fill: {
+                                    color: color,
+                                    opacity: 0.3
+                                },
+                                geodesic: true, // optional: defaults to false
+                                draggable: false, // optional: defaults to false
+                                clickable: true, // optional: defaults to true
+                                editable: false, // optional: defaults to false
+                                visible: true, // optional: defaults to true
+                                control: {}
+                            };
+
+                        $scope.circles.push(objCircle);
+
+                        $scope.userMarkers.push({
+                                id:value.l[0] +""+value.l[1],
+                                latitude: value.l[0],
+                                longitude: value.l[1],
+                                title:key
+                        });
+                    });
+
+                });
+
+                //Nuevo usuario
+                users.set($scope.$root.usuario,[position.latitude,position.longitude]);
+
+
         };
 
 
